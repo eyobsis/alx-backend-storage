@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
+
 """
-Top students
+Module: 11-schools_by_topic
+This module contains a function to retrieve a list of schools
+based on a specific topic from a MongoDB collection.
 """
 
 
-def top_students(mongo_collection):
+def schools_by_topic(mongo_collection, topic):
     """
-    returns all students sorted by average score
-    :param mongo_collection:
-    :return:
+    Retrieve a list of schools that cover a specific topic from
+    a MongoDB collection.
+
+    Args:
+    - mongo_collection: pymongo collection object
+    - topic (string): topic to search for in schools
+
+    Returns:
+    - List of schools matching the specified topic
     """
-    return mongo_collection.aggregate([
-        {"$project": {
-            "name": "$name",
-            "averageScore": {"$avg": "$topics.score"}
-        }},
-        {"$sort": {"averageScore": -1}}
-    ])
+    schools = mongo_collection.find({'topics': topic})
+    return list(schools)
+
+
+if __name__ == "__main__":
+    pass
